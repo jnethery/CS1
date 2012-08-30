@@ -40,7 +40,7 @@ int main(void)
 
     FILE *fin;
     fin = fopen("dictionary.txt", "r"); //'dictionary.txt' stores every valid word for the game
-    fscanf(fin, "%d", &dictionarySize); //retrieves the size of the dictionary from the first line of 'dictionary.txt'
+    fscanf(fin, "%hu", &dictionarySize); //retrieves the size of the dictionary from the first line of 'dictionary.txt'
 
     char dictionary[dictionarySize][MAX_STRLEN]; //declaration of the dictionary array
 
@@ -49,6 +49,7 @@ int main(void)
     {
         fscanf(fin, "%s", &dictionary[i]);
     }
+    fclose(fin); //close the file
 
     setLetterAttributes(letters); //sets the point values and virtual tile distribution for every letter of the alphabet
 
@@ -63,7 +64,7 @@ int main(void)
         while (validChoiceFlag == 0)
         {
             printf("What would you like to do?\n\t1-Enter word\n\t2-Quit\n\n");
-            scanf("%d", &menuChoice);
+            scanf("%hu", &menuChoice);
             switch(menuChoice)
             {
                 case 1:
@@ -87,7 +88,7 @@ int main(void)
     //tells the player their best word and score when they quit the program (alternatively, informs the player that they played no words)
     if (bestWordScore > 0)
     {
-        printf("\nYour best word was %s for %d points\n", bestWord, bestWordScore);
+        printf("\nYour best word was %s for %hu points\n", bestWord, bestWordScore);
     }
     else
     {
@@ -253,12 +254,12 @@ unsigned short wordValidation(char* bestWord, char* enteredString, char* randomS
 
     free(lettersInRandomString);
 
-    for (i = 0; i < 110; i++)
+    for (i = 0; i < dictionarySize; i++)
     {
         if (strcmp(enteredString, dictionary[i]) == 0)
         {
             unsigned short wordValue = pointCalculator(enteredString, letters);
-            printf("That word is worth %d points\n\n", wordValue);
+            printf("That word is worth %hu points\n\n", wordValue);
 
             if (wordValue > *bestWordScore)
             {
