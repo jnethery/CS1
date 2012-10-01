@@ -14,7 +14,7 @@
 struct Property
 {
     char name[30]; //stores the name of the property
-    int user; //stores the user# of the property owner
+    int user; //stores the user# of the property owner 
     int num_houses; //stores the # of houses on the property
     int num_hotels; //stores the # of hotels on the property
     struct Property *next; //pointer to the next node in the property list
@@ -27,9 +27,8 @@ struct Property * deleteProperty(struct Property *propertyListHead, char name[30
 struct Property * sellProperty(struct Property *propertyListHead, char name[30], int user); //function for all processes related to selling a property
 struct Property * buyProperty(struct Property *propertyListHead, char name[30], int user); //function for all processes related to buying a property
 struct Property * improveProperty(struct Property *propertyListHead, char name[30], int user); //function for all processes related to improving a property
-int checkPropertyOwnership(struct Property *propertyListHead, char name[30], int user); //verifies property ownership. return 0 if user parameter matches, -1 if the property does not exist and n > 0 otherwise (user who owns the property)
+int checkPropertyOwnership(struct Property *propertyListHead, char name[30], int user); //verifies property ownership. return 0 if user parameter matches, -1 if the property does not exist and n > 0 otherwise (user who owns the property) 
 void viewProperties(struct Property *propertyListHead); //prints the properties in the list
-void deleteList(struct Property *propertyListHead); //frees all nodes in the list from memory. to be called at the end of main
 /*** ENDOF FUNCTION PROTOTYPES ***/
 
 /*** MAIN ***/
@@ -39,7 +38,7 @@ int main(void)
     propertyListHead = NULL; //this ensures that the list is empty
 
     int playerCount = 0; //number of players in the game
-    int currentPlayer = 1; //player whose turn it is
+    int currentPlayer = 1; //player whose turn it is 
     int menuChoice = 0; //generic int for storing menu choices
     int validMenuChoice = 0; //int functioning as a bool for determining whether or not a menu choice was valid
     int gameRunning = 1; //int functioning as a bool for determining whether or not the game should continue to run
@@ -48,7 +47,7 @@ int main(void)
 
     printf("Welcome to the Monopoly Property Tracker!\n\n");
 
-	//game set-up merely determines the amount of players in the game
+	//game set-up merely determines the amount of players in the game 
     while (validMenuChoice != 1)
     {
         printf("How many people are playing?\n");
@@ -85,22 +84,22 @@ int main(void)
 		//call functions corresponding to menu choice
         switch(menuChoice)
         {
-            case 1: //buyProperty
+            case 1: //buyProperty 
                 printf("\nWhat is the name of the property you wish to buy?\n");
                 scanf("%s", propertyName);
                 propertyListHead = buyProperty(propertyListHead, propertyName, currentPlayer);
                 break;
-            case 2: //improveProperty
+            case 2: //improveProperty 
                 printf("\nWhich property do you wish to improve?\n");
                 scanf("%s", propertyName);
                 propertyListHead = improveProperty(propertyListHead, propertyName, currentPlayer);
                 break;
-            case 3: //sellProperty
+            case 3: //sellProperty 
                 printf("\nWhich property do you wish to sell?\n");
                 scanf("%s", propertyName);
                 propertyListHead = sellProperty(propertyListHead, propertyName, currentPlayer);
                 break;
-            case 4: //viewProperties
+            case 4: //viewProperties 
                 viewProperties(propertyListHead);
                 break;
             case 5: //end turn (not a function)
@@ -113,7 +112,7 @@ int main(void)
                     currentPlayer++;
                 }
                 break;
-            case 6: //quit game (not a function)
+            case 6: //quit game (not a function) 
                 gameRunning = 0;
                 printf("\nList of end-game properties: \n");
                 viewProperties(propertyListHead);
@@ -121,12 +120,12 @@ int main(void)
                 break;
         }
     }
-    deleteList(propertyListHead);
+
     return 0;
 }
 /*** ENDOF MAIN ***/
 
-/*** FUNCTIONS ***/
+/*** FUNCTIONS ***/ 
 struct Property * addProperty(struct Property *propertyListHead, char name[30], int user)
 {
 	//declaring and initializing a property to insert at the end of the property list
@@ -150,7 +149,7 @@ struct Property * addProperty(struct Property *propertyListHead, char name[30], 
     }
     else
     {
-        propertyListHead = temp;
+        propertyListHead = temp; 
     }
     return propertyListHead;
 }
@@ -159,14 +158,14 @@ struct Property * deleteProperty(struct Property *propertyListHead, char name[30
 {
     struct Property * temp;
 
-	// set the list head to the next node if the list head is the node being deleted
+	// set the list head to the next node if the list head is the node being deleted 
     if (strcmp(propertyListHead->name, name) == 0)
     {
         temp = propertyListHead;
         propertyListHead = propertyListHead->next;
         free(temp);
     }
-	// otherwise, cycle through the list and find the node that matches the name parameter passed in and remove it
+	// otherwise, cycle through the list and find the node that matches the name parameter passed in and remove it 
     else
     {
         struct Property * helperPointer;
@@ -176,7 +175,7 @@ struct Property * deleteProperty(struct Property *propertyListHead, char name[30
         {
             helperPointer = helperPointer->next;
         }
-        temp = helperPointer->next;
+        temp = helperPointer->next; 
         helperPointer->next = helperPointer->next->next;
         free(temp);
     }
@@ -220,12 +219,12 @@ struct Property * buyProperty(struct Property *propertyListHead, char name[30], 
     {
         propertyListHead = addProperty(propertyListHead, name, user);
     }
-	//if the property is owned by the player, notify the player that they already own it
+	//if the property is owned by the player, notify the player that they already own it 
     else if (propertyOwnershipFlag == 0)
     {
         printf("\nYou already own that property\n");
     }
-	//if the property is owned by another user, tell the player the user who owns it
+	//if the property is owned by another user, tell the player the user who owns it 
     else
     {
         printf("\nPlayer %d owns that property!\n", propertyOwnershipFlag);
@@ -240,9 +239,9 @@ struct Property * improveProperty(struct Property *propertyListHead, char name[3
     int propertyOwnershipFlag = checkPropertyOwnership(propertyListHead, name, user);
     int validMenuChoice = 0;
     int menuChoice;
-    int improvementQuantity; //# of houses or hotels to be added to the property
+    int improvementQuantity; //# of houses or hotels to be added to the property 
 
-	//if the property is owned by the player, get the property from the list and add the specified number or hotels or houses to it
+	//if the property is owned by the player, get the property from the list and add the specified number or hotels or houses to it 
     if (propertyOwnershipFlag == 0)
     {
         struct Property * helperPointer;
@@ -269,16 +268,16 @@ struct Property * improveProperty(struct Property *propertyListHead, char name[3
         printf("\nHow many do you wish to purchase?\n");
         scanf("%d", &improvementQuantity);
 
-        if (menuChoice == 1) //add hotels
+        if (menuChoice == 1) //add hotels 
         {
             helperPointer->num_hotels += improvementQuantity;
         }
-        else //add houses
+        else //add houses 
         {
             helperPointer->num_houses += improvementQuantity;
         }
     }
-	//if the player does not own the property, notify them
+	//if the player does not own the property, notify them 
     else
     {
         printf("\nYou do not own that property\n");
@@ -314,13 +313,13 @@ int checkPropertyOwnership(struct Property *propertyListHead, char name[30], int
         }
         helperPointer = helperPointer->next;
     }
-	//if the whole list is cycled through and n >= 0 is not yet returned, return -1, indicating that the property is not owned by anyone
+	//if the whole list is cycled through and n >= 0 is not yet returned, return -1, indicating that the property is not owned by anyone 
     return -1;
 }
 
 void viewProperties(struct Property *propertyListHead)
 {
-	//cycle through the list and print the name of each property and the user who owns it
+	//cycle through the list and print the name of each property and the user who owns it 
     if (propertyListHead != NULL)
     {
         printf("\n");
@@ -333,23 +332,11 @@ void viewProperties(struct Property *propertyListHead)
             helperPointer = helperPointer->next;
         }
     }
-
+	
 	//if the property list is empty, notify the player
     else
     {
         printf("\nThere are no properties to view\n");
-    }
-}
-
-void deleteList(struct Property *propertyListHead)
-{
-    if (propertyListHead != NULL)
-    {
-        if (propertyListHead->next != NULL)
-        {
-            deleteList(propertyListHead->next);
-        }
-        free(propertyListHead);
     }
 }
 /*** ENDOF FUNCTIONS ***/
